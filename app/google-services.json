@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "776870837311",
+    "firebase_url": "https://messagingapp-d8ffa-default-rtdb.firebaseio.com",
+    "project_id": "messagingapp-d8ffa",
+    "storage_bucket": "messagingapp-d8ffa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776870837311:android:41e947ece5c9113c8ecc8a",
+        "android_client_info": {
+          "package_name": "com.nodz.messagingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776870837311-1ct5ck1ntau5frp23vja2aqfafq30v15.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nodz.messagingapp",
+            "certificate_hash": "e280e2dbe013054bb5a645aea47262ba18bc3600"
+          }
+        },
+        {
+          "client_id": "776870837311-bardf3987libbdg6p8tqrlqeak2simet.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArD5Gt1w6mSocWd1nTwPxoCHeULlvTCBo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776870837311-bardf3987libbdg6p8tqrlqeak2simet.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
