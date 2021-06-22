@@ -26,7 +26,7 @@
             android:minWidth="50dp"
             android:padding="4dp"
             android:text="TextView"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="parent"
@@ -42,7 +42,7 @@
             android:layout_marginBottom="5dp"
             android:text="8:00 AM"
             android:textSize="10sp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/senderText" />

@@ -100,8 +100,8 @@ public class SignInActivity extends AppCompatActivity {
                 signIn();
             }
         });
-
-        if(auth.getCurrentUser() != null) {
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(auth.getCurrentUser() != null ) {
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
         }

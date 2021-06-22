@@ -31,6 +31,7 @@ public class ChatsFragment extends Fragment {
     FragmentChatsBinding binding;
     ArrayList<Users> list = new ArrayList<Users>();
     FirebaseDatabase database;
+    FirebaseAuth auth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +44,7 @@ public class ChatsFragment extends Fragment {
         binding.chatsRecyclerView.setAdapter(adapter);
 
         database = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.chatsRecyclerView.setLayoutManager(layoutManager);
@@ -54,7 +56,7 @@ public class ChatsFragment extends Fragment {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Users users = dataSnapshot.getValue(Users.class);
                     users.setUserId(dataSnapshot.getKey());
-                    if(!users.getUserId().equals(FirebaseAuth.getInstance().getUid())){
+                    if(!users.getUserId().equals(auth.getUid())){
                     list.add(users);
                     }
                 }

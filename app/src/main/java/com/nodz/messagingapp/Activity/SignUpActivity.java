@@ -2,6 +2,7 @@ package com.nodz.messagingapp.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
@@ -49,8 +50,8 @@ public class SignUpActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
 
         //Checking if user is signed in .
-        if(auth.getCurrentUser() != null){
-            Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
+        if (auth.getCurrentUser() != null) {
+            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
             startActivity(intent);
         }
 
@@ -64,46 +65,51 @@ public class SignUpActivity extends AppCompatActivity {
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         binding.googlesignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signIn();
+                if (account == null) {
+                    signIn();
+                } else {
+                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+
             }
         });
 
-        binding.signup.setOnClickListener(new View.OnClickListener(){
+        binding.signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(binding.etusernamesignup.getText().toString().isEmpty()){
+                if (binding.etusernamesignup.getText().toString().isEmpty()) {
                     binding.etusernamesignup.setError("Enter your username");
                     return;
                 }
-                if(binding.etemailsignup.getText().toString().isEmpty()){
+                if (binding.etemailsignup.getText().toString().isEmpty()) {
                     binding.etemailsignup.setError("Enter your email");
                     return;
                 }
-                if(binding.etpasswordsignup.getText().toString().isEmpty()){
+                if (binding.etpasswordsignup.getText().toString().isEmpty()) {
                     binding.etpasswordsignup.setError("Enter your password");
                     return;
                 }
                 progressDialog.show();
-                auth.createUserWithEmailAndPassword(binding.etemailsignup.getText().toString(),binding.etpasswordsignup.getText().toString())
+                auth.createUserWithEmailAndPassword(binding.etemailsignup.getText().toString(), binding.etpasswordsignup.getText().toString())
                         .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressDialog.dismiss();
-                                if (task.isSuccessful())
-                                {
-                                    Users user = new Users(binding.etusernamesignup.getText().toString(),binding.etemailsignup.getText().toString(),binding.etpasswordsignup.getText().toString());
+                                if (task.isSuccessful()) {
+                                    Users user = new Users(binding.etusernamesignup.getText().toString(), binding.etemailsignup.getText().toString(), binding.etpasswordsignup.getText().toString());
                                     String id = task.getResult().getUser().getUid();
                                     database.getReference().child("Users").child(id).setValue(user);
                                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                                     startActivity(intent);
 
                                     Toast.makeText(SignUpActivity.this, "Signedin", Toast.LENGTH_SHORT).show();
-                                }
-                                else{
+                                } else {
                                     Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -118,55 +124,46 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        }
-    int RC_SIGN_IN = 66;
+    }
+
+    int RC_SIGN_IN = 100;
+
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                Log.d("TAG", "firebaseAuthWithGoogle:" + account.getId());
-                firebaseAuthWithGoogle(account.getIdToken());
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Log.w("TAG", "Google sign in failed", e);
+            handleSignInResult(task);
+        }
+    }
+
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+            if (acct != null) {
+                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                intent.putExtra("Email", acct.getEmail());
+                intent.putExtra("Name", acct.getDisplayName());
+                startActivity(intent);
+
+            } }
+        catch(ApiException e){
+                // The ApiException status code indicates the detailed failure reason.
+                // Please refer to the GoogleSignInStatusCodes class reference for more information.
+                e.printStackTrace();
+
             }
         }
     }
-    private void firebaseAuthWithGoogle(String idToken) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        auth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(SignUpActivity.this, "Signed In", Toast.LENGTH_SHORT).show();
-                            FirebaseUser user = auth.getCurrentUser();
-                            Users users = new Users();
-                            users.setUserId(user.getUid());
-                            users.setUserName(user.getDisplayName());
-                            users.setProfilepic(user.getPhotoUrl().toString());
-                            //users.setMail(user.getEmail());
-                            database.getReference().child("Users").child(user.getUid()).setValue(users);
-
-                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(SignUpActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-}
 
