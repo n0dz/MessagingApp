@@ -9,8 +9,8 @@ Android application for text messaging.
 - Text status.
 - Picture status in next version.
 
-### ScreenShots
-![Screenshot_20210601_160406](https://user-images.githubusercontent.com/43600925/120323564-76ded800-c29a-11eb-8fa5-3b2a96e49064.png "Chat Activity")
-![signin](https://user-images.githubusercontent.com/43600925/120850913-f1268b00-c52c-11eb-848e-d0c70a9ecd5c.png "SignIn")
-![signup](https://user-images.githubusercontent.com/43600925/120850987-08657880-c52d-11eb-939f-eefa85450951.png "SignUp")
+### Chatting&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Setup/Edit Profile
+![chatAppChatting](https://user-images.githubusercontent.com/43600925/122874335-bde34a80-d2e7-11eb-9c19-1445f8feeb23.gif)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+![chatAppSetting](https://user-images.githubusercontent.com/43600925/122874353-c20f6800-d2e7-11eb-8cb3-22e5b7dae5ca.gif)
 
